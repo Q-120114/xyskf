@@ -1,0 +1,6 @@
+export const careLevels = ['自理', '半失能', '失能']
+export const chronicDiseases = ['高血压', '糖尿病', '冠心病', '脑梗', '慢阻肺', '骨质疏松']
+export const serviceTypes = ['助餐', '助浴', '助洁', '代购', '陪同就医', '康复护理', '心理疏导', '上门探访']
+export const alertTypes = ['跌倒', '心率异常', '血压超标', '长时间离床', '久卧不动', 'SOS一键呼叫', '设备离线', '体温异常']
+export const areas = ['幸福里片区', '阳光花园片区', '康宁苑片区', '颐养园片区', '和平社区片区']
+export const buildings = ['1号楼', '2号楼', '3号楼', '4号楼', '5号楼', '6号楼', '7号楼', '8号楼']

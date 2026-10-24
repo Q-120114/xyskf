@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>社区养老服务与健康监测可视化系统 - 原型图</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f5f5f5; padding: 30px; color: #333; }
+  h1 { text-align: center; margin-bottom: 10px; font-size: 24px; }
+  .subtitle { text-align: center; color: #888; margin-bottom: 40px; font-size: 14px; }
+  .proto-section { margin-bottom: 50px; }
+  .proto-title { font-size: 18px; font-weight: 600; margin-bottom: 12px; padding-left: 10px; border-left: 4px solid #409eff; }
+  .proto-desc { font-size: 13px; color: #666; margin-bottom: 16px; }
+
+  /* ===== 低保真线框图通用样式 ===== */
+  .wireframe { border: 1px solid #ccc; border-radius: 6px; background: #fff; overflow: hidden; }
+  .wf-block { background: #e8e8e8; border-radius: 3px; }
+  .wf-block-primary { background: #409eff; opacity: 0.7; }
+  .wf-text { color: #999; font-size: 12px; }
+
+  /* ===== 登录页原型 ===== */
+  .login-proto { width: 900px; height: 460px; display: flex; }
+  .login-left { width: 55%; background: linear-gradient(135deg, #1d6fd6, #409eff); display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
+  .login-left .logo-wf { width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.25); margin-bottom: 20px; }
+  .login-left .title-wf { width: 220px; height: 24px; background: rgba(255,255,255,0.5); border-radius: 4px; margin-bottom: 10px; }
+  .login-left .sub-wf { width: 160px; height: 14px; background: rgba(255,255,255,0.35); border-radius: 3px; }
+  .login-right { width: 45%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; }
+  .login-right .form-title { width: 120px; height: 22px; background: #e8e8e8; border-radius: 4px; margin-bottom: 30px; }
+  .login-right .input-wf { width: 100%; height: 40px; background: #f0f0f0; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 16px; }
+  .login-right .btn-wf { width: 100%; height: 40px; background: #409eff; border-radius: 4px; margin-top: 10px; }
+
+  /* ===== 主布局原型 ===== */
+  .layout-proto { width: 1000px; height: 520px; display: flex; flex-direction: column; }
+  .layout-body { display: flex; flex: 1; }
+  .sidebar { width: 200px; background: #001529; display: flex; flex-direction: column; }
+  .sidebar .logo-area { height: 56px; background: #002140; display: flex; align-items: center; justify-content: center; }
+  .sidebar .logo-area .dot { width: 24px; height: 24px; border-radius: 4px; background: #409eff; margin-right: 8px; }
+  .sidebar .logo-area .txt { width: 100px; height: 14px; background: rgba(255,255,255,0.3); border-radius: 2px; }
+  .sidebar .menu { padding: 12px 0; }
+  .sidebar .menu-item { display: flex; align-items: center; padding: 12px 20px; color: #b7c0cd; }
+  .sidebar .menu-item.active { background: rgba(64,158,255,0.15); color: #409eff; }
+  .sidebar .menu-item .ic { width: 16px; height: 16px; border-radius: 3px; background: currentColor; opacity: 0.6; margin-right: 10px; }
+  .sidebar .menu-item .lb { width: 80px; height: 12px; background: currentColor; opacity: 0.5; border-radius: 2px; }
+  .main-area { flex: 1; display: flex; flex-direction: column; background: #f0f2f5; }
+  .header { height: 56px; background: #fff; border-bottom: 1px solid #e4e7ed; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+  .header .left { display: flex; align-items: center; gap: 16px; }
+  .header .toggle { width: 20px; height: 20px; background: #ddd; border-radius: 3px; }
+  .header .crumb { width: 120px; height: 14px; background: #eee; border-radius: 2px; }
+  .header .right { display: flex; align-items: center; gap: 12px; }
+  .header .bell { width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0; }
+  .header .avatar { width: 30px; height: 30px; border-radius: 50%; background: #409eff; }
+  .header .uname { width: 60px; height: 12px; background: #eee; border-radius: 2px; }
+  .content { flex: 1; padding: 16px; overflow: auto; }
+
+  /* ===== 仪表盘原型 ===== */
+  .dash-stats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 16px; }
+  .stat-card { background: #fff; border-radius: 6px; padding: 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .stat-card .icon { width: 40px; height: 40px; border-radius: 8px; }
+  .stat-card .info .val { width: 50px; height: 20px; background: #e8e8e8; border-radius: 3px; margin-bottom: 6px; }
+  .stat-card .info .lbl { width: 60px; height: 12px; background: #f0f0f0; border-radius: 2px; }
+  .dash-row { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .dash-panel { background: #fff; border-radius: 6px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .panel-title { width: 100px; height: 14px; background: #e8e8e8; border-radius: 2px; margin-bottom: 12px; }
+  .chart-placeholder { width: 100%; height: 160px; background: #f7f9fc; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #bbb; font-size: 12px; }
+  .chart-pie { width: 100%; height: 140px; background: #f7f9fc; border-radius: 4px; }
+
+  /* ===== 列表页原型 ===== */
+  .toolbar { background: #fff; border-radius: 6px; padding: 12px 16px; margin-bottom: 12px; display: flex; gap: 12px; }
+  .toolbar .filter { width: 120px; height: 32px; background: #f5f7fa; border: 1px solid #e4e7ed; border-radius: 4px; }
+  .toolbar .btn { width: 80px; height: 32px; background: #409eff; border-radius: 4px; }
+  .table-wf { background: #fff; border-radius: 6px; overflow: hidden; }
+  .table-head { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1.5fr; background: #fafafa; border-bottom: 1px solid #ebeef5; }
+  .table-head div { padding: 12px; height: 12px; background: #e8e8e8; margin: 12px; border-radius: 2px; }
+  .table-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1.5fr; border-bottom: 1px solid #f5f5f5; }
+  .table-row div { padding: 12px; height: 10px; background: #f0f0f0; margin: 10px; border-radius: 2px; }
+
+  /* ===== 颜色图例 ===== */
+  .legend { display: flex; gap: 20px; margin-top: 8px; font-size: 12px; color: #888; }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+  .legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+</style>
+</head>
+<body>
+
+<h1>社区养老服务与健康监测可视化系统</h1>
+<p class="subtitle">产品原型图 · 低保真线框图 (Wireframe)</p>
+
+<!-- 登录页 -->
+<div class="proto-section">
+  <div class="proto-title">1. 登录页</div>
+  <div class="proto-desc">左侧品牌展示区 + 右侧登录表单（账号/密码/登录按钮）。登录成功后跳转仪表盘。</div>
+  <div class="wireframe login-proto">
+    <div class="login-left">
+      <div class="logo-wf"></div>
+      <div class="title-wf"></div>
+      <div class="sub-wf"></div>
+    </div>
+    <div class="login-right">
+      <div class="form-title"></div>
+      <div class="input-wf"></div>
+      <div class="input-wf"></div>
+      <div class="btn-wf"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 主布局 -->
+<div class="proto-section">
+  <div class="proto-title">2. 主布局框架</div>
+  <div class="proto-desc">左侧导航栏（8 个菜单 + 折叠）+ 顶部栏（面包屑/告警提醒/用户菜单）+ 主内容区。窗口 &lt; 768px 侧边栏自动折叠。</div>
+  <div class="wireframe layout-proto">
+    <div class="layout-body">
+      <div class="sidebar">
+        <div class="logo-area"><div class="dot"></div><div class="txt"></div></div>
+        <div class="menu">
+          <div class="menu-item active"><div class="ic"></div><div class="lb"></div></div>
+          <div class="menu-item"><div class="ic"></div><div class="lb"></div></div>
+          <div class="menu-item"><div class="ic"></div><div class="lb"></div></div>
+          <div class="menu-item"><div class="ic"></div><div class="lb"></div></div>
+          <div class="menu-item"><div class="ic"></div><div class="lb"></div></div>
+          <div class="menu-item"><div class="ic"></div><div class="lb"></div></div>
+          <div class="menu-item"><div class="ic"></div><div class="lb"></div></div>
+          <div class="menu-item"><div class="ic"></div><div class="lb"></div></div>
+        </div>
+      </div>
+      <div class="main-area">
+        <div class="header">
+          <div class="left"><div class="toggle"></div><div class="crumb"></div></div>
+          <div class="right"><div class="bell"></div><div class="avatar"></div><div class="uname"></div></div>
+        </div>
+        <div class="content">
+          <div class="wf-block" style="height: 100%; opacity: 0.3; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #aaa;">主内容区（各业务页面）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 仪表盘 -->
+<div class="proto-section">
+  <div class="proto-title">3. 可视化大屏中心（Dashboard）</div>
+  <div class="proto-desc">6 个统计卡片 + 社区地图 + 健康/慢病/服务/告警图表 + 人员响应仪表 + 重点人群 + 月度趋势。</div>
+  <div class="wireframe" style="padding: 16px; background: #f0f2f5;">
+    <div class="dash-stats">
+      <div class="stat-card"><div class="icon wf-block-primary"></div><div class="info"><div class="val"></div><div class="lbl"></div></div></div>
+      <div class="stat-card"><div class="icon" style="background:#f56c6c"></div><div class="info"><div class="val"></div><div class="lbl"></div></div></div>
+      <div class="stat-card"><div class="icon" style="background:#67c23a"></div><div class="info"><div class="val"></div><div class="lbl"></div></div></div>
+      <div class="stat-card"><div class="icon" style="background:#e6a23c"></div><div class="info"><div class="val"></div><div class="lbl"></div></div></div>
+      <div class="stat-card"><div class="icon" style="background:#13c2c2"></div><div class="info"><div class="val"></div><div class="lbl"></div></div></div>
+      <div class="stat-card"><div class="icon" style="background:#722ed1"></div><div class="info"><div class="val"></div><div class="lbl"></div></div></div>
+    </div>
+    <div class="dash-row">
+      <div class="dash-panel"><div class="panel-title"></div><div class="chart-placeholder">社区地图总览</div></div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div class="dash-panel"><div class="panel-title"></div><div class="chart-pie"></div></div>
+        <div class="dash-panel"><div class="panel-title"></div><div class="chart-pie"></div></div>
+      </div>
+    </div>
+    <div class="dash-row" style="grid-template-columns: 1fr 1fr 1fr;">
+      <div class="dash-panel"><div class="panel-title"></div><div class="chart-placeholder">响应仪表</div></div>
+      <div class="dash-panel"><div class="panel-title"></div><div class="chart-placeholder">重点人群</div></div>
+      <div class="dash-panel"><div class="panel-title"></div><div class="chart-placeholder">月度趋势</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 列表页通用原型 -->
+<div class="proto-section">
+  <div class="proto-title">4. 列表管理页（老人档案/工单/告警/人员等通用）</div>
+  <div class="proto-desc">筛选工具栏（片区/状态/等级等 + 新增按钮）+ 数据表格（支持横向滚动）+ 详情抽屉/弹窗下钻。</div>
+  <div class="wireframe" style="padding: 16px; background: #f0f2f5;">
+    <div class="toolbar">
+      <div class="filter"></div><div class="filter"></div><div class="filter"></div><div style="flex:1"></div><div class="btn"></div>
+    </div>
+    <div class="table-wf">
+      <div class="table-head"><div></div><div></div><div></div><div></div><div></div></div>
+      <div class="table-row"><div></div><div></div><div></div><div></div><div></div></div>
+      <div class="table-row"><div></div><div></div><div></div><div></div><div></div></div>
+      <div class="table-row"><div></div><div></div><div></div><div></div><div></div></div>
+      <div class="table-row"><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 统计分析页 -->
+<div class="proto-section">
+  <div class="proto-title">5. 统计分析报表</div>
+  <div class="proto-desc">多维度筛选（周期/片区/维度）+ 指标卡片 + 多类型图表（柱状/饼图/玫瑰图/双轴折线/雷达/预测）+ 明细表 + 导出 Excel/打印。</div>
+  <div class="wireframe" style="padding: 16px; background: #f0f2f5;">
+    <div class="toolbar">
+      <div class="filter" style="width: 200px;"></div><div class="filter"></div><div class="filter"></div>
+    </div>
+    <div class="dash-stats" style="grid-template-columns: repeat(5, 1fr);">
+      <div class="stat-card"><div class="icon" style="background:#409eff"></div><div class="info"><div class="val"></div><div class="lbl"></div></div></div>
+      <div class="stat-card"><div class="icon" style="background:#f56c6c"></div><div class="info"><div class="val"></div><div class="lbl"></div></div></div>
+      <div class="stat-card"><div class="icon" style="background:#67c23a"></div><div class="info"><div class="val"></div><div class="lbl"></div></div></div>
+      <div class="stat-card"><div class="icon" style="background:#e6a23c"></div><div class="info"><div class="val"></div><div class="lbl"></div></div></div>
+      <div class="stat-card"><div class="icon" style="background:#13c2c2"></div><div class="info"><div class="val"></div><div class="lbl"></div></div></div>
+    </div>
+    <div class="dash-row">
+      <div class="dash-panel"><div class="panel-title"></div><div class="chart-placeholder">片区分布柱状图</div></div>
+      <div class="dash-panel"><div class="panel-title"></div><div class="chart-pie"></div></div>
+    </div>
+    <div class="dash-row" style="grid-template-columns: 1fr 1fr;">
+      <div class="dash-panel"><div class="panel-title"></div><div class="chart-placeholder">服务需求横向柱状图</div></div>
+      <div class="dash-panel"><div class="panel-title"></div><div class="chart-pie"></div></div>
+    </div>
+  </div>
+</div>
+
+<div style="text-align: center; color: #aaa; font-size: 12px; margin-top: 40px;">
+  — 原型图基于实际系统布局绘制，所有页面均已开发完成并通过运行验证 —
+</div>
+
+</body>
+</html>
