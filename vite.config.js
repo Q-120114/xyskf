@@ -5,6 +5,8 @@ export default defineConfig({
   base: './',
   plugins: [vue()],
   server: {
+    port: 5173,
+    strictPort: true, // 端口被占时直接报错，避免起多个实例造成混淆
     proxy: {
       '/api': {
         target: 'http://localhost:5000',

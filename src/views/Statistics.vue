@@ -130,6 +130,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { statsApi, elderlyApi, healthApi, alertsApi, ordersApi } from '../api'
 import { barOption, pieOption, axisGrid } from '../utils/chartOptions'
+import { exportCsv } from '../utils/exportCsv'
 
 const filters = reactive({ period: 'month', area: '', dim: 'area' })
 const elderlyList = ref([])
@@ -255,8 +256,16 @@ const reportData = computed(() => {
   })
 })
 
-function exportExcel() { ElMessage.success('Excel 报表导出中...') }
-function exportPdf() { ElMessage.success('正在生成 PDF 报表...') }
+// 导出"健康异常月报明细"为 CSV（Excel 可直接打开）
+function exportExcel() {
+  const headers = ['月份', '老人', '片区', '异常指标', '数值', '阈值', '异常次数', '处置状态']
+  const rows = reportData.value.map(r => [r.month, r.elderlyName, r.area, r.indicator, r.value, r.threshold, r.count, r.status])
+  exportCsv('健康异常月报', headers, rows)
+  ElMessage.success(`已导出 ${rows.length} 条报表数据`)
+}
+
+// 调用浏览器打印，可打印纸质报表或另存为 PDF
+function exportPdf() { window.print() }
 </script>
 
 <style scoped>

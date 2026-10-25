@@ -138,6 +138,7 @@ import { ref, reactive, computed, onMounted, watch } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { elderlyApi } from '../api'
 import { areas, buildings, careLevels, chronicDiseases, serviceTypes } from '../constants'
+import { exportCsv } from '../utils/exportCsv'
 
 const filters = reactive({ keyword: '', area: '', careLevel: '', disease: '', keyOnly: false })
 const detailVisible = ref(false)
@@ -211,8 +212,18 @@ function remove(row) {
     .catch(() => {})
 }
 
+// 导出当前筛选结果下的老人档案为 CSV（可用 Excel 直接打开）
 function exportData() {
-  ElMessage.success('档案导出中... (模拟)')
+  if (!list.value.length) { ElMessage.warning('暂无数据可导出'); return }
+  const headers = ['编号', '姓名', '性别', '年龄', '联系方式', '片区', '住址', '楼栋', '房间', '自理等级', '慢病', '标签', '紧急联系人', '紧急电话', '重点关爱', '绑定设备']
+  const rows = list.value.map(e => [
+    e.id, e.name, e.gender, e.age, e.phone, e.area, e.address, e.building, e.room,
+    e.careLevel, e.diseases.join('、'), e.tags.join('、'),
+    e.emergencyContact, e.emergencyPhone,
+    e.isKey ? '是' : '否', e.bindDevice ? e.deviceType : '未绑定'
+  ])
+  exportCsv('老人档案', headers, rows)
+  ElMessage.success(`已导出 ${rows.length} 条档案`)
 }
 
 const pinX = computed(() => current.value ? 30 + Math.random() * 40 : 50)
